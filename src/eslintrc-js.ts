@@ -1,6 +1,6 @@
 // .eslintrc.js
 
-import {shouldExtendAirbnb, isUsingMocha, isUsingJest} from './index';
+import {shouldExtendEslintWithAirbnb, isUsingMocha, isUsingJest} from './index';
 
 export default {
   env: {
@@ -14,11 +14,11 @@ export default {
 
   // uncomment for eslint rules
   extends: [
-    ...(shouldExtendAirbnb() ? ['eslint-config-airbnb-base'] : []),
+    ...(shouldExtendEslintWithAirbnb() ? ['eslint-config-airbnb-base'] : []),
     'plugin:sonar/recommended',
     'plugin:sonarjs/recommended',
-    ...(isUsingMocha() ? ['plugin:mocha/recommended']: []),
-    ...(isUsingJest() ? ['plugin:jest/recommended']: []),
+    ...(isUsingMocha() ? ['plugin:mocha/recommended'] : []),
+    ...(isUsingJest() ? ['plugin:jest/recommended'] : []),
     'prettier',
   ],
   plugins: ['prettier', 'sonar', 'sonarjs'],
