@@ -51,8 +51,32 @@ export const isUsingMocha = (): boolean => hasModule('jest');
 export const isUsingJest = (): boolean => hasModule('mocha');
 
 export interface TemplQaConfig {
+  // https://www.npmjs.com/package/dependency-cruiser
+  dependencyCruiser: boolean;
+  dependencyCruiserArgs: string[];
+  // https://www.npmjs.com/package/setup-cpp || https://www.npmjs.com/package/setup-cpp
+  clangFormat: boolean;
+  clangFormatArgs: string[];
+  clangTidy: boolean;
+  clangTidyArgs: string[];
+  // https://www.npmjs.com/package/eslint
   eslint: boolean;
+  eslintArgs: string[];
+  // https://www.npmjs.com/package/jscpd
+  jscpd: boolean;
+  jscpdArgs: string[];
+  // https://www.npmjs.com/package/license-checker
+  licenseChecker: boolean;
+  licenseCheckerArgs: string[];
+  // https://www.npmjs.com/package/prettier
   prettier: boolean;
+  prettierArgs: string[];
+  // https://www.npmjs.com/package/snyk
+  snyk: boolean;
+  snykArgs: string[];
+  // https://www.npmjs.com/package/sonarqube-scanner
+  sonarQube: boolean;
+  sonarQubeArgs: string[];
 }
 
 export const run = async () => {
