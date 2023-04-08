@@ -10,7 +10,6 @@ module.exports = {
   parser: "@typescript-eslint/parser",
   extends: [
     "plugin:@typescript-eslint/recommended",
-    "plugin:jest/recommended",
     "plugin:sonar/recommended",
     "plugin:sonarjs/recommended",
     "plugin:jest/recommended",
