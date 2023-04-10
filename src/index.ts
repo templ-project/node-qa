@@ -5,11 +5,9 @@
  * @link https://github.com/sensedeep/dynamodb-onetable/blob/main/package.json
  */
 
-
-
 import {cosmiconfigSync} from 'cosmiconfig';
 
-import { hasModule, findModuleBinary, spawn } from '_run';
+import { hasModule, findModuleBinary, spawn, defaultSpawnOptionsWithOutput } from '_run';
 
 export const shouldExtendEslintWithAirbnb = (): boolean => hasModule('eslint-config-airbnb');
 
@@ -53,7 +51,7 @@ export const run = async () => {
   if (config?.eslint && hasModule('eslint')) {
     const eslint = findModuleBinary('eslint');
     if (eslint !== null) {
-      const {code} = spawn(eslint, config?.eslintArgs || [])
+      const {code} = spawn(eslint, config?.eslintArgs || [], defaultSpawnOptionsWithOutput)
       if (code !== 0) {
         process.exit(code || 254);
       }

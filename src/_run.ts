@@ -21,6 +21,10 @@ export const defaultSpawnOptions: SpawnOptions = {
   stdio: 'pipe',
 };
 
+export const defaultSpawnOptionsWithOutput: SpawnOptions = {
+  cwd: process.cwd()
+};
+
 export const spawn = (command: string, args: string[], spawnOptions: SpawnOptions = defaultSpawnOptions): SpawnResponse => {
   const child = nodeSpawn(command, [...args], spawnOptions);
   return {
@@ -37,7 +41,6 @@ export const which = (name: string): string | null => {
   } else {
     result = spawn('which', [name]);
   }
-  console.log(result)
   const {code, stdout} = result;
   if (code === 0) {
     return stdout.trim();
@@ -45,10 +48,13 @@ export const which = (name: string): string | null => {
   return null;
 };
 
+export const osExtensions = (): string[] => platform() === 'win32' ? ['.cmd', '.bat', '.ps1'] : ['', '.sh'];
+
 export const hasModule = (name: string): boolean => {
-  for (const cmd of ['npm', 'npm.bat']) {
+  const npm = findGlobalModuleBinary('npm', osExtensions());
+  if (typeof npm === 'string') {
     for (const args of [['ls'], ['ls', '-g']]) {
-      const {stdout} = spawn(cmd, args);
+      const {stdout} = spawn(npm, args);
       if (stdout.trim().includes(`── ${name}@`)) {
         return true;
       }
@@ -86,12 +92,10 @@ export const findLocalModuleBinary = (name: string, extensions: string[]): strin
 };
 
 export const findModuleBinary = (name: string): string | null => {
-  const extensions = platform() === 'win32' ? ['.cmd', '.ps1'] : [''];
-
-  const globalBinary = findGlobalModuleBinary(name, extensions);
+  const globalBinary = findGlobalModuleBinary(name, osExtensions());
   if (globalBinary !== null) {
     return globalBinary;
   }
 
-  return findLocalModuleBinary(name, extensions);
+  return findLocalModuleBinary(name, osExtensions());
 };

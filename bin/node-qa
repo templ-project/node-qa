@@ -1,1 +1,5 @@
 #! /bin/bash
+
+const {run} = require('./dist');
+
+run();
