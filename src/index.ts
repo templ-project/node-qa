@@ -7,7 +7,7 @@
 
 import {cosmiconfigSync} from 'cosmiconfig';
 
-import { hasModule, findModuleBinary, spawn, defaultSpawnOptionsWithOutput } from '_run';
+import { hasModule, findModuleBinary, spawn, defaultSpawnOptionsWithOutput } from './_run';
 
 export const shouldExtendEslintWithAirbnb = (): boolean => hasModule('eslint-config-airbnb');
 
@@ -48,13 +48,18 @@ export interface NodeQaConfig {
 export const run = async () => {
   const config: NodeQaConfig = (cosmiconfigSync('nodeqa').search()?.config || {}) as NodeQaConfig;
 
-  if (config?.eslint && hasModule('eslint')) {
-    const eslint = findModuleBinary('eslint');
-    if (eslint !== null) {
+  console.log(config)
+
+  if (config?.eslint/* && hasModule('eslint')*/) {
+    const eslint = (findModuleBinary('eslint') || '').trim();
+    console.log([eslint])
+    if (eslint) {
       const {code} = spawn(eslint, config?.eslintArgs || [], defaultSpawnOptionsWithOutput)
       if (code !== 0) {
         process.exit(code || 254);
       }
+    } else {
+      console.error('Could not find eslint')
     }
   }
 };

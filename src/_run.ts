@@ -22,7 +22,8 @@ export const defaultSpawnOptions: SpawnOptions = {
 };
 
 export const defaultSpawnOptionsWithOutput: SpawnOptions = {
-  cwd: process.cwd()
+  ...defaultSpawnOptions,
+  stdio: 'inherit',
 };
 
 export const spawn = (command: string, args: string[], spawnOptions: SpawnOptions = defaultSpawnOptions): SpawnResponse => {
