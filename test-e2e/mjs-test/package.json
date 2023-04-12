@@ -1,8 +1,9 @@
 {
-  "name": "cjs-example",
+  "name": "mjs-example",
   "version": "0.0.0",
   "description": "Node.js Quality Assurance Module Test MJS",
-   "scripts": {
+  "type": "module",
+  "scripts": {
     "ca": "node-qa"
   },
   "repository": {
