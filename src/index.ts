@@ -5,61 +5,34 @@
  * @link https://github.com/sensedeep/dynamodb-onetable/blob/main/package.json
  */
 
-import {cosmiconfigSync} from 'cosmiconfig';
+import {args} from './args';
+import {config} from './config';
 
-import { hasModule, findModuleBinary, spawn, defaultSpawnOptionsWithOutput } from './_run';
+console.log(args)
 
-export const shouldExtendEslintWithAirbnb = (): boolean => hasModule('eslint-config-airbnb');
+// import { hasModule, findModuleBinary, spawn, defaultSpawnOptionsWithOutput } from './_run';
 
-export const isUsingMocha = (): boolean => hasModule('jest');
+// export const shouldExtendEslintWithAirbnb = (): boolean => hasModule('eslint-config-airbnb');
 
-export const isUsingJest = (): boolean => hasModule('mocha');
+// export const isUsingMocha = (): boolean => hasModule('jest');
 
-export interface NodeQaConfig {
-  order: string[]
-  // https://www.npmjs.com/package/dependency-cruiser
-  dependencyCruiser?: boolean;
-  dependencyCruiserArgs?: string[];
-  // https://www.npmjs.com/package/setup-cpp || https://www.npmjs.com/package/setup-cpp
-  clangFormat?: boolean;
-  clangFormatArgs?: string[];
-  clangTidy?: boolean;
-  clangTidyArgs?: string[];
-  // https://www.npmjs.com/package/eslint
-  eslint?: boolean;
-  eslintArgs?: string[];
-  // https://www.npmjs.com/package/jscpd
-  jscpd?: boolean;
-  jscpdArgs?: string[];
-  // https://www.npmjs.com/package/license-checker
-  licenseChecker?: boolean;
-  licenseCheckerArgs?: string[];
-  // https://www.npmjs.com/package/prettier
-  prettier?: boolean;
-  prettierArgs?: string[];
-  // https://www.npmjs.com/package/snyk
-  snyk?: boolean;
-  snykArgs?: string[];
-  // https://www.npmjs.com/package/sonarqube-scanner
-  sonarQube?: boolean;
-  sonarQubeArgs?: string[];
-}
+// export const isUsingJest = (): boolean => hasModule('mocha');
 
-export const run = async () => {
-  const config: NodeQaConfig = (cosmiconfigSync('nodeqa').search()?.config || {}) as NodeQaConfig;
 
-  console.log(config)
 
-  if (config?.eslint/* && hasModule('eslint')*/) {
-    const eslint = (findModuleBinary('eslint') || '').trim();
-    console.log([eslint])
-    if (eslint) {
-      const {code} = spawn(eslint, config?.eslintArgs || [], defaultSpawnOptionsWithOutput)
-      if (code !== 0) {
-        process.exit(code || 254);
-      }
-    } else {
-      console.error('Could not find eslint')
-    }
-  }
-};
+// export const run = async () => {
+//   console.log(config)
+
+//   if (config?.eslint/* && hasModule('eslint')*/) {
+//     const eslint = (findModuleBinary('eslint') || '').trim();
+//     console.log([eslint])
+//     if (eslint) {
+//       const {code} = spawn(eslint, config?.eslintArgs || [], defaultSpawnOptionsWithOutput)
+//       if (code !== 0) {
+//         process.exit(code || 254);
+//       }
+//     } else {
+//       console.error('Could not find eslint')
+//     }
+//   }
+// };

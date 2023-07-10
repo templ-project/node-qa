@@ -9,13 +9,36 @@
   "module": "dist/mjs/index.js",
   "exports": {
     ".": {
-      "import": "./dist/mjs/index.js",
-      "require": "./dist/cjs/index.js"
+      "types": "./dist/types/index.d.ts",
+      "bun": "./dist/browser/index.js",
+      "deno": "./dist/browser/index.js",
+      "browser": "./dist/browser/index.js",
+      "worker": "./dist/browser/index.js",
+      "import": "./dist/node/esm/index.js",
+      "require": "./dist/node/cjs/index.js"
     }
   },
   "scripts": {
-    "build": "rimraf dist && tsc -p tsconfig.json && tsc -p tsconfig-cjs.json && node ./.scripts/fixup.js",
-    "--test": "cross-env NODE_ENV=test jest --coverage",
+    "build": "tsc",
+    "build-all": "run-s clear build:*",
+    "--build:browser": "run-s runtime-browser 'build -- -p ./tsconfig/browser.json' && echo '{\"type\": \"module\"}'> dist/browser/package.json",
+    "--build:browser-bundle": "esbuild --bundle dist/browser/index.js --format=esm --target=es2018 --outfile=dist/browser/index.bundle.js",
+    "--build:browser-bundle-min": "esbuild --minify --bundle dist/browser/index.js --format=esm --target=es2018 --outfile=dist/browser/index.bundle.min.js",
+    "--build:browser-umd": "rollup dist/browser/index.bundle.js --format umd --name jose -o dist/browser/index.umd.js && rollup dist/browser/index.bundle.min.js --compact --format umd --name jose -o dist/browser/index.umd.min.js",
+    "--build:deno": "npm run-script runtime-deno && find dist/deno -name '*.ts' -type f -print0 | xargs -0 sed -i.bak -e \"s/\\.js'/.ts'/g\" -e \"s/\\.d'/.d.ts'/g\" && npm run-script sedcleanup",
+    "build:types": "npm run-script build -- -p ./tsconfig/types.json && cd src && find . -name '*.d.ts' -maxdepth 2 -type f -exec rsync -R \"{}\" ../dist/types  \\; && cd .. && run-s -s types:find | xargs -0 sed -i.bak -e \"s/\\.js'/'/g\" -e \"s/\\.d'/'/g\" && npm run-script sedcleanup",
+    "build:node-cjs": "run-s \"build -- -p ./tsconfig/node-cjs.json\"",
+    "--build:node-esm": "run-s runtime-node 'build -- -p ./tsconfig/node-esm.json' && echo '{\"type\": \"module\"}'> dist/node/esm/package.json",
+    "runtime-browser": "run-s runtime:clear runtime:browser:* runtime:refs",
+    "runtime-deno": "npm run-script runtime-browser && mkdir -p dist/deno && cp -R src/. dist/deno && rm -R dist/deno/runtime/browser dist/deno/runtime/node",
+    "runtime-node": "run-s runtime:clear runtime:node:* runtime:refs",
+    "runtime:browser:copy": "cp ./src/runtime/browser/*.ts ./src/runtime",
+    "runtime:clear": "run-s -s runtime:find | xargs -0 rm -f",
+    "runtime:find": "find src/runtime -not -name '*.d.ts' -maxdepth 1 -type f -print0",
+    "types:find": "find dist/types -name '*.d.ts' -type f -print0",
+    "runtime:node:copy": "cp ./src/runtime/node/*.ts ./src/runtime",
+    "runtime:refs": "run-s -s runtime:find | xargs -0 sed -i.bak -e \"s/'\\.\\.\\//'\\.\\//g\" -e \"s/'\\.\\/\\.\\./'../g\" && npm run-script sedcleanup",
+    "prebuild": "rimraf dist",
     "test": "jest --coverage"
   },
   "repository": {
@@ -29,6 +52,7 @@
   },
   "homepage": "https://github.com/templ-project/node-qa#readme",
   "dependencies": {
+    "commander": "^11.0.0",
     "cosmiconfig": "^8.0.0"
   },
   "devDependencies": {
@@ -37,10 +61,11 @@
     "globby": "^11.1.0",
     "husky": "^8.0.3",
     "jest": "^29.4.2",
+    "npm-run-all2": "^6.0.6",
     "release-it": "^15.6.0",
     "rimraf": "^5.0.0",
     "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "typescript": "^5.1.6"
   }
 }
