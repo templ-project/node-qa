@@ -1,6 +1,6 @@
 // .prettierrc.js
 
-module.exports = {
+export default {
   bracketSpacing: false,
   overrides: [
     // see other parsers https://prettier.io/docs/en/options.html#parser

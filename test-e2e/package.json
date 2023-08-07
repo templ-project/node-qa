@@ -1,8 +1,7 @@
 {
-  "name": "mjs-example",
+  "name": "cjs-example",
   "version": "0.0.0",
   "description": "Node.js Quality Assurance Module Test MJS",
-  "type": "module",
   "scripts": {
     "ca": "node-qa"
   },
@@ -17,7 +16,17 @@
   },
   "homepage": "https://github.com/templ-project/node-qa#readme",
   "devDependencies": {
-    "@templ-project/node-qa": "file:../..",
-    "eslint": "^8.37.0"
-  }
+    "@templ/node-qa": "file:..",
+    "@templ/node-qa-configs": "file:../../node-qa-configs",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "dependency-cruiser": "^13.1.1",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^8.9.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-sonar": "^0.12.0",
+    "license-checker": "^25.0.1",
+    "prettier": "^3.0.0",
+    "standard": "^17.1.0"
+  },
+  "type": "module"
 }

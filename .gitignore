@@ -105,3 +105,9 @@ dist
 
 # gpt-engineer
 prompt
+
+# test-e2e
+
+test-e2e/.nodeqarc.yml
+test-e2e/.prettierrc.js
+test-e2e/package-lock.json

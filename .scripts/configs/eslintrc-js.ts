@@ -1,6 +1,6 @@
 // .eslintrc.js
 
-import {shouldExtendEslintWithAirbnb, isUsingMocha, isUsingJest} from './index';
+import {shouldExtendEslintWithAirbnb, isUsingMocha, isUsingJest} from '../src/lib';
 
 export default {
   env: {
