@@ -4,7 +4,7 @@ import {which, hasModule, findModuleBinary} from '../src/_run';
 
 describe('which', function () {
   it('which("npm") to return npm correct path', function () {
-    const command = which(`npm${platform() === 'win32'?'.cmd':''}`)
+    const command = which(`npm${platform() === 'win32' ? '.cmd' : ''}`);
     expect(command).toMatch(/nodejs[\/\\]npm(.cmd)?/);
   });
 });
