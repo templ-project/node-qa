@@ -2,10 +2,10 @@ modules:
   - name: prettier
     args:
       - --write
-      - ./{src,test}/**/*.{js,ts}
+      - ./src/**/*.ts
   - name: eslint
     args:
-      - ./{src,test}/**/*.{js,ts}
+      - ./src/**/*.ts
       - --fix
   - name: dependency-cruiser
     binary: depcruise

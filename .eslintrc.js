@@ -5,7 +5,7 @@ module.exports = {
     browser: true,
     es6: true,
     node: true,
-    mocha: true,
+    jest: true,
   },
   parser: '@typescript-eslint/parser',
   extends: [
@@ -15,7 +15,7 @@ module.exports = {
     'plugin:jest/recommended',
     'prettier',
   ],
-  plugins: ['@typescript-eslint', 'prettier', /*'sonar',*/ 'sonarjs'],
+  plugins: ['@typescript-eslint' /*'prettier', /*'sonar', 'sonarjs'*/],
   root: true,
   rules: {
     '@typescript-eslint/object-curly-spacing': 'off',

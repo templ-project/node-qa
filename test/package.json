@@ -35,6 +35,5 @@
     "prettier": "^3.0.1",
     "prettier-plugin-import-sort": "^0.0.7",
     "standard": "^17.1.0"
-  },
-  "type": "module"
+  }
 }

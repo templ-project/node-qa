@@ -21,14 +21,18 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "run-s clear build:*",
+    "build": "run-s clear build:* build-fix:*",
     "build:binary": "run-s tsc && rimraf ./dist/configs",
-    "build:node-cjs": "run-s 'tsc -- -p ./tsconfig/node-cjs.json' fix-cjs",
-    "build:node-esm": "run-s 'tsc -- -p ./tsconfig/node-esm.json' && echo '{\"type\": \"module\"}' > dist/configs/esm/package.json",
-    "clear": "rimraf dist",
-    "fix-cjs": "./.scripts/fix-cjs-export.sh",
+    "build:node-cjs": "run-s 'tsc -- -p ./tsconfig/node-cjs.json'",
+    "build:node-esm": "run-s 'tsc -- -p ./tsconfig/node-esm.json'",
+    "clear": "rimraf dist \"./test/{.babelrc,.eslintrc,.prettierrc}.(c|m|)js\" \"./test/.nodeqarc.yml\"",
+    "build-fix:cjs": "./.scripts/fix-cjs-export.sh",
+    "build-fix:esm": "echo '{\"type\": \"module\"}' > dist/configs/esm/package.json",
     "prepare": "husky install",
     "qa": "ts-node-esm ./src/index.ts -v",
+    "test": "run-s clear test:*",
+    "test:unit": "jest",
+    "test:e2e": "cd ./test && ./test.sh",
     "tsc": "tsc"
   },
   "repository": {
@@ -57,7 +61,7 @@
     "@commitlint/config-conventional": "^17.7.0",
     "@jscpd/badge-reporter": "^3.4.5",
     "@types/cli-progress": "^3.11.0",
-    "@types/jest": "^29.5.0",
+    "@types/jest": "^29.5.3",
     "@types/lodash.merge": "^4.6.7",
     "@types/node": "^18.14.0",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
@@ -80,7 +84,7 @@
     "release-it": "^16.1.3",
     "rimraf": "^5.0.0",
     "snyk": "^1.1200.0",
-    "ts-jest": "^29.1.0",
+    "ts-jest": "^29.1.1",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.1.6"
