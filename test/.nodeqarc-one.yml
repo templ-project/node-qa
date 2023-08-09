@@ -1,0 +1,8 @@
+---
+modules:
+  - prettier
+  # - standard
+  # - license-checker
+  # - name: npm
+  #   args:
+  #     - audit

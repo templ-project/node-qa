@@ -1,0 +1,10 @@
+modules:
+  - name: prettier
+    args:
+      - --write
+      - ./{src,test}/**/*.{js,ts}
+  - name: eslint
+    args:
+      - ./{src,test}/**/*.{js,ts}
+      - --fix
+ignoreMissingModules: true

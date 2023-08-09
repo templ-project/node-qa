@@ -3,10 +3,13 @@ export default {
   overrides: [
     // see other parsers https://prettier.io/docs/en/options.html#parser
     {
-      files: '*.js',
+      files: '*.(c|m|)js(|x)',
       options: {
         parser: 'babel',
       },
+    },
+    {
+      files: '*.coffee',
     },
     {
       files: '*.json',
@@ -29,8 +32,13 @@ export default {
         singleQuote: false,
       },
     },
+    {
+      files: '*.ts(|x)',
+      options: {
+        parser: 'typescript',
+      },
+    },
   ],
-  parser: 'typescript',
   printWidth: 120,
   semi: true,
   singleQuote: true,

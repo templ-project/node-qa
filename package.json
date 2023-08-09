@@ -5,11 +5,31 @@
   "bin": {
     "node-qa": "bin/node-qa.js"
   },
-  "type": "module",
+  "exports": {
+    "./prettierrc.js": {
+      "import": "./dist/configs/esm/prettierrc.js",
+      "require": "./dist/configs/cjs/prettierrc.js"
+    },
+    "./eslintrc-js.js": {
+      "import": "./dist/configs/esm/eslintrc-js.js",
+      "require": "./dist/configs/cjs/eslintrc-js.js"
+    },
+    "./eslintrc-ts.js": {
+      "import": "./dist/configs/esm/eslintrc-ts.js",
+      "require": "./dist/configs/cjs/eslintrc-ts.js"
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist",
-    "test": "jest --coverage"
+    "build": "run-s clear build:*",
+    "build:binary": "run-s tsc && rimraf ./dist/configs",
+    "build:node-cjs": "run-s 'tsc -- -p ./tsconfig/node-cjs.json' fix-cjs",
+    "build:node-esm": "run-s 'tsc -- -p ./tsconfig/node-esm.json' && echo '{\"type\": \"module\"}' > dist/configs/esm/package.json",
+    "clear": "rimraf dist",
+    "fix-cjs": "./.scripts/fix-cjs-export.sh",
+    "prepare": "husky install",
+    "qa": "ts-node-esm ./src/index.ts -v",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
@@ -23,7 +43,6 @@
   "homepage": "https://github.com/templ-project/node-qa#readme",
   "dependencies": {
     "chalk": "4.1.2",
-    "cli-progress": "^3.12.0",
     "commander": "^11.0.0",
     "cosmiconfig": "^8.2.0",
     "enquirer": "^2.4.1",
@@ -34,6 +53,8 @@
     "yaml": "^2.3.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.0",
+    "@commitlint/config-conventional": "^17.7.0",
     "@jscpd/badge-reporter": "^3.4.5",
     "@types/cli-progress": "^3.11.0",
     "@types/jest": "^29.5.0",

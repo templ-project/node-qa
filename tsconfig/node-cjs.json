@@ -1,0 +1,10 @@
+{
+  "extends": "./base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "target": "ES2020",
+    "module": "CommonJS",
+    "esModuleInterop": false,
+    "outDir": "../dist/configs/cjs"
+  }
+}

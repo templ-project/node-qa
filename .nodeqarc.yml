@@ -14,7 +14,7 @@ modules:
       - .dependency-cruiser.js
       - src
       - -x
-      - src/*.d.js
+      - src/*.d.ts
   - name: jscpd
     args:
       - ./src
@@ -29,10 +29,11 @@ modules:
         2.0 GCC; GPL 3.0; GPL 3.0 Autoconf; GPL 3.0 GCC; GPLv2 with XebiaLabs
         FLOSS License Exception; LGPL; LGPL 2.0; LGPL 2.1; LGPL 3.0; Suspected
         Eclipse 1.0; Suspected Eclipse 2.0'
-  - name: snyk
-    args:
-      - test
-      - --severity-threshold=high
+  # TODO: need to sove token issue
+  # - name: snyk
+  #   args:
+  #     - test
+  #     - --severity-threshold=high
   - name: npm-audit
     moduleName: npm
     binary: npm

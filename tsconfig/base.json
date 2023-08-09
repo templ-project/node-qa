@@ -1,0 +1,18 @@
+{
+  "files": [
+    "../src/configs/eslintrc-js.ts",
+    "../src/configs/eslintrc-ts.ts",
+    "../src/configs/prettierrc.ts"
+  ],
+  "compilerOptions": {
+    "lib": ["ES2017", "DOM", "ES2018.asynciterable"],
+    "types": [],
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": false,
+    "removeComments": true,
+    "verbatimModuleSyntax": false
+  }
+}

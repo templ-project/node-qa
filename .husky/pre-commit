@@ -1,0 +1,10 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run build
+
+node ./dist/index.js -v
+
+# npm run test
+
+git add -u
