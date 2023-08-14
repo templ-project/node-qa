@@ -1,6 +1,8 @@
 #! /bin/bash
 set +e
 
+cd .. && npm run build && cd test
+
 find . -iname "${1:-.nodeqarc-*}" | while read config;
 # for config in ".nodeqarc-one.yml";
 # for config in ".nodeqarc-more.yml";
@@ -14,12 +16,13 @@ do for type in "cjs" "esm"; do
   echo
   echo
 
-  cp $config .nodeqarc.yml
-
   rm -rf node_modules package-lock.json .babelrc* .eslintrc* .prettierrc*
 
+  cp $config .nodeqarc.yml
+
   if [[ $type == "cjs" ]]; then
-    jq 'del(.type)' package.json > tmp_package.json && mv tmp_package.json package.json
+    # jq 'del(.type)' package.json > tmp_package.json && mv tmp_package.json package.json
+    jq '. + { "type": "commonjs" }' package.json > tmp_package.json && mv tmp_package.json package.json
 
     cat > .babelrc.js <<EOL
 // .babelrc.js
@@ -32,13 +35,13 @@ EOL
     cat > .eslintrc.js <<EOL
 // .eslintrc.js
 
-module.exports = require('@templ/node-qa-configs/eslintrc-js.js');
+module.exports = require('@templ/node-qa/configs/eslintrc-js.js');
 EOL
 
     cat > .prettierrc.js <<EOL
 // .prettierrc.js
 
-module.exports = require('@templ/node-qa-configs/prettierrc.js');
+module.exports = require('@templ/node-qa/configs/prettierrc.js');
 EOL
   else
     jq '. + { "type": "module" }' package.json > tmp_package.json && mv tmp_package.json package.json
@@ -55,13 +58,13 @@ EOL
     cat > .eslintrc.cjs <<EOL
 // .eslintrc.cjs
 
-module.exports = require('@templ/node-qa-configs/eslintrc-js.js');
+module.exports = require('@templ/node-qa/configs/eslintrc-js.js');
 EOL
 
     cat > .prettierrc.js <<EOL
 // .prettierrc.js
 
-import prettierrc from '@templ/node-qa-configs/prettierrc.js';
+import prettierrc from '@templ/node-qa/configs/prettierrc.js';
 
 export default prettierrc;
 EOL
@@ -69,7 +72,8 @@ EOL
 
   npm i
 
-  ../node_modules/.bin/ts-node-esm ../src/index.ts -vvv
+  # ../node_modules/.bin/ts-node-esm ../src/index.ts -vvv
+  node ../dist/index.js -vvv
   exitCode=$?
 
   tested=0

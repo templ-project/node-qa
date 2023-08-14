@@ -1,3 +1,5 @@
+import {hasModule} from '../lib/detect.js';
+
 export default {
   bracketSpacing: false,
   overrides: [
@@ -8,9 +10,13 @@ export default {
         parser: 'babel',
       },
     },
-    {
-      files: '*.coffee',
-    },
+    ...(hasModule('prettier-plugin-coffeescript').found
+      ? [
+          {
+            files: '*.coffee',
+          },
+        ]
+      : []),
     {
       files: '*.json',
       options: {
@@ -39,6 +45,7 @@ export default {
       },
     },
   ],
+  parser: 'typescript',
   printWidth: 120,
   semi: true,
   singleQuote: true,

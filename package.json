@@ -6,17 +6,17 @@
     "node-qa": "bin/node-qa.js"
   },
   "exports": {
-    "./prettierrc.js": {
-      "import": "./dist/configs/esm/prettierrc.js",
-      "require": "./dist/configs/cjs/prettierrc.js"
+    "./configs/prettierrc.js": {
+      "import": "./dist/configs/esm/configs/prettierrc.js",
+      "require": "./dist/configs/cjs/configs/prettierrc.js"
     },
-    "./eslintrc-js.js": {
-      "import": "./dist/configs/esm/eslintrc-js.js",
-      "require": "./dist/configs/cjs/eslintrc-js.js"
+    "./configs/eslintrc-js.js": {
+      "import": "./dist/configs/esm/configs/eslintrc-js.js",
+      "require": "./dist/configs/cjs/configs/eslintrc-js.js"
     },
-    "./eslintrc-ts.js": {
-      "import": "./dist/configs/esm/eslintrc-ts.js",
-      "require": "./dist/configs/cjs/eslintrc-ts.js"
+    "./configs/eslintrc-ts.js": {
+      "import": "./dist/configs/esm/configs/eslintrc-ts.js",
+      "require": "./dist/configs/cjs/configs/eslintrc-ts.js"
     },
     "./package.json": "./package.json"
   },
@@ -26,7 +26,8 @@
     "build:node-cjs": "run-s 'tsc -- -p ./tsconfig/node-cjs.json'",
     "build:node-esm": "run-s 'tsc -- -p ./tsconfig/node-esm.json'",
     "clear": "rimraf dist \"./test/{.babelrc,.eslintrc,.prettierrc}.(c|m|)js\" \"./test/.nodeqarc.yml\"",
-    "build-fix:cjs": "./.scripts/fix-cjs-export.sh",
+    "build-fix:binary": "echo '{\"type\": \"module\"}' > dist/package.json",
+    "build-fix:cjs": "./.scripts/fix-cjs-export.sh && echo '{\"type\": \"commonjs\"}' > dist/configs/cjs/package.json",
     "build-fix:esm": "echo '{\"type\": \"module\"}' > dist/configs/esm/package.json",
     "prepare": "husky install",
     "qa": "ts-node-esm ./src/index.ts -v",
